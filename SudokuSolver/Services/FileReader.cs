@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 
 using Microsoft.Win32;
+using SudokuSolver.Models;
 
 namespace Algorytm_Ewolucyjny.Services
 {
@@ -13,38 +14,20 @@ namespace Algorytm_Ewolucyjny.Services
     {
         private readonly string FILEPATH_ERROR = "Problem With filePath";
 
+        private readonly string FILEPATH_DEFAULT_SUDOKU = "D:\\gitProjects\\SI_Lab2v2\\SudokuSolver\\Resources\\Sudoku.csv";
 
+        private readonly int SUDOKU_SIZE = 9;
 
         public FileReader()
         {
+            
+
 
         }
 
-        private string ChooseFileToOpen()
-        {
-            string filePath;
-            Win32.OpenFileDialog openFileDialog = new OpenFileDialog
-            {
-                InitialDirectory = "D:\\gitProjects\\SI_Lab1\\",
-                Filter = "File Type (*.fileType)|*.fileType|All files (*.*)| *.*",
-                FilterIndex = 1,
-                RestoreDirectory = true
-            };
+       
 
-            if (openFileDialog.ShowDialog().GetValueOrDefault())
-            {
-                filePath = openFileDialog.FileName;
-            }
-            else
-            {
-                filePath = FILEPATH_ERROR;
-            }
-
-            return filePath;
-
-        }
-
-        private void LoadObject(string filePath)
+        public string[] LoadRawSudoku(string filePath)
         {
             string[] fileData;
 
@@ -61,19 +44,88 @@ namespace Algorytm_Ewolucyjny.Services
 
             }
 
+            return fileData;
 
         }
 
-        public bool LoadData()
+        public SudokuBook LoadData()
         {
-            bool result;
+            
+
             string filePath = ChooseFileToOpen();
-            result = LoadObject(filePath);
-            return result;
+            var rawData = LoadRawSudoku(filePath);
+
+            return CreateSudokuBook(rawData);
+
+        }
+
+        public SudokuBook FirstLoad()
+        {
+
+           
+            var rawData = LoadRawSudoku(FILEPATH_DEFAULT_SUDOKU);
+
+            return CreateSudokuBook(rawData);
 
         }
 
 
+        private SudokuBook CreateSudokuBook(string[] rawData)
+        {
+            var sudokuBook = new SudokuBook();
+
+            
+
+                for (int i = 1; i < rawData.Length; i++)
+                {
+
+                    var line = rawData[i].Split(';');
+
+                    var id = int.Parse(line[0]);
+
+                    var difficulty = double.Parse(line[1]);
+
+                    var grid = GridParser(line[2]);
+
+
+
+                    sudokuBook.Add((Id: id, Difficulty: difficulty, Sudoku: new Sudoku(grid)));
+
+                }
+
+            
+            
+
+
+            return sudokuBook;
+
+        }
+
+
+        private int[,] GridParser(string gridRaw)
+        {
+            var grid = new int[SUDOKU_SIZE, SUDOKU_SIZE];
+
+            var gridChar = gridRaw.ToCharArray();
+
+            var index = 0;
+
+            for (int i = 0; i < SUDOKU_SIZE; i++)
+            {
+
+                for (int j = 0; j < SUDOKU_SIZE; j++)
+                {
+                    
+                    grid[j, i] = (int)char.GetNumericValue(gridChar[index].Equals('.') ? '0' : gridChar[index]);
+                    index++;
+                }
+
+            }
+
+            return grid;
+
+
+        }
 
         public void SaveFile(List<(double BestScore, double AvarageScore, double WorstScore)> Scores)
         {
@@ -99,7 +151,7 @@ namespace Algorytm_Ewolucyjny.Services
 
 
 
-                streamWriter.WriteLine(ScoresString(Scores));
+               
 
                 //File.WriteAllText(saveFileDialog.FileName, ddd);
 
@@ -112,7 +164,29 @@ namespace Algorytm_Ewolucyjny.Services
 
         #region privateMethods
 
+        private string ChooseFileToOpen()
+        {
+            string filePath;
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                InitialDirectory = "D:\\gitProjects\\SI_Lab2v2\\SudokuSolver\\Resources\\",
+                Filter = "excel Files (*.csv)|*.csv|All files (*.*)| *.*",
+                FilterIndex = 1,
+                RestoreDirectory = true
+            };
 
+            if (openFileDialog.ShowDialog().GetValueOrDefault())
+            {
+                filePath = openFileDialog.FileName;
+            }
+            else
+            {
+                filePath = FILEPATH_ERROR;
+            }
+
+            return filePath;
+
+        }
 
 
 

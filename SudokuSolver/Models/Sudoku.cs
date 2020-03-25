@@ -1,10 +1,11 @@
-﻿using System;
+﻿using SudokuSolver.Models.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SI_CSP.Models
+namespace SudokuSolver.Models
 {
-    class Sudoku : ICache<int>
+    public class Sudoku : ICacheMultiple<int>
     {
 
         int[,] Grid { set; get; }

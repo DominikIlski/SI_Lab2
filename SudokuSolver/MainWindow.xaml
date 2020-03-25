@@ -8,5 +8,61 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
 
+        <ToolBar Height="30" VerticalAlignment="Top">
+            <Viewbox>
+                <Button Margin=" 5 0 5 0" Click="OpenFileButton_Click" x:Name="OpenFileButton" ToolTip="Open File" BorderBrush="{x:Null}" Background="{x:Null}">
+
+                <Grid>
+
+                    <Grid.ColumnDefinitions>
+
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="5*"/>
+
+                    </Grid.ColumnDefinitions>
+
+
+                    <Image Grid.Column="0" Source=".//Resources//OpenFolder.png" />
+
+                    <TextBlock Grid.Column="1" Margin="5" Text="Otwórz plik" VerticalAlignment="Center"  />
+
+                </Grid>
+            </Button>
+            </Viewbox>
+
+
+            <Separator/>
+            <Viewbox>
+            <Button Margin=" 5 0 5 0"  x:Name="SaveFileButton" ToolTip="Save File" BorderBrush="{x:Null}" Background="{x:Null}" Click="SaveFileButton_Click" >
+
+                <Grid>
+
+                    <Grid.ColumnDefinitions>
+
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="5*"/>
+
+                    </Grid.ColumnDefinitions>
+
+
+                    <Image Grid.Column="0" Source=".//Resources//Save.png" />
+
+                    <TextBlock Grid.Column="1" Margin="5" Text="Zapisz plik"  VerticalAlignment="Center"/>
+
+                </Grid>
+            </Button>
+            </Viewbox>
+            <Separator/>
+
+
+
+
+
+
+
+        </ToolBar>
+
+
+
     </Grid>
 </Window>

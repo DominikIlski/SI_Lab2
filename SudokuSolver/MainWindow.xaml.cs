@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Algorytm_Ewolucyjny.Services;
+using SudokuSolver.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +22,27 @@ namespace SudokuSolver
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        SudokuBook SudokuBook { get; set; }
+        FileReader FileReader { get; set; }
         public MainWindow()
         {
             InitializeComponent();
+            FileReader = new FileReader();
+            SudokuBook = FileReader.FirstLoad();
+            var tester = SudokuBook;
+        }
+
+        private void OpenFileButton_Click(object sender, RoutedEventArgs e)
+        {
+
+
+
+        }
+
+        private void SaveFileButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

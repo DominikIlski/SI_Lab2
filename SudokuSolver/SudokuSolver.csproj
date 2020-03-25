@@ -6,4 +6,20 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Resources\OpenFile.png" />
+    <None Remove="Resources\OpenFolder.png" />
+    <None Remove="Resources\Save.png" />
+    <None Remove="Resources\SaveAs.png" />
+    <None Remove="Resources\Sudoku.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\OpenFile.png" />
+    <Resource Include="Resources\OpenFolder.png" />
+    <Resource Include="Resources\Save.png" />
+    <Resource Include="Resources\SaveAs.png" />
+    <Resource Include="Resources\Sudoku.csv" />
+  </ItemGroup>
+
 </Project>

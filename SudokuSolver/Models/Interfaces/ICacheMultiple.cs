@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SI_CSP.Models
+namespace SudokuSolver.Models.Interfaces
 {
-    interface ICache<TContent>
+    public interface ICacheMultiple<TContent>
     {
         
         TContent this[int xKey, int yKey] { get; set; }
