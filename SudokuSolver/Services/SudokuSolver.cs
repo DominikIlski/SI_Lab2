@@ -9,8 +9,8 @@ namespace SudokuSolver.Services
     class SudokuSolver
     {
     
-        SudokuBook? SudokuBook { set; get; }
-        SudokuBook? SolvedBook 
+        public SudokuBook? SudokuBook { set; private get; }
+        public SudokuBook? SolvedBook 
         {
             set
             {
@@ -19,12 +19,13 @@ namespace SudokuSolver.Services
 
             get
             {
-                MessageBox.Show("Solve sudoku book befor printing solution");
-                return SolvedBook;
+
+                return SolvedBook ?? throw new Exception("Solve sudoku book befor printing solution");
+                
             }
         }
 
-        //List<> SolutionOrder
+        HashSet<int> SolvingOrder { set; get; }
 
 
         Sudoku? CurrentExample { set; get; }
@@ -33,6 +34,7 @@ namespace SudokuSolver.Services
         {
 
             SudokuBook = sudokuBook;
+            SolvingOrder = new HashSet<int>();
 
         }
 
@@ -54,7 +56,7 @@ namespace SudokuSolver.Services
 
 
 
-
+            return
 
 
         }
@@ -62,8 +64,14 @@ namespace SudokuSolver.Services
 
 
 
-        
+        private void AssumeSolvingOrder()
+        {
 
+
+
+
+        }
+        
 
 
     }
