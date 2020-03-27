@@ -83,7 +83,7 @@ namespace Algorytm_Ewolucyjny.Services
 
                     var id = int.Parse(line[0]);
 
-                    var difficulty = double.Parse(line[1]);
+                    var difficulty = double.Parse(line[1].Replace('.', ','));
 
                     var grid = GridParser(line[2]);
 
