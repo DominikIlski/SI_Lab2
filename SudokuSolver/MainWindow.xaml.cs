@@ -34,7 +34,7 @@ namespace SudokuSolver
 
             DisplaySudokuGrid(SudokuBook[0].Sudoku);
             
-
+            
 
         }
 
@@ -83,9 +83,10 @@ namespace SudokuSolver
                         Text = sudoku[j,i] == 0 ? " " : sudoku[j, i].ToString()
                     };
 
-                    Viewbox vb = new Viewbox();
-
-                    vb.Child = tx;
+                    Viewbox vb = new Viewbox
+                    {
+                        Child = tx
+                    };
 
 
                     sudokuField.Child = vb;
