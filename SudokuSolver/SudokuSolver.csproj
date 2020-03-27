@@ -13,9 +13,13 @@
     <None Remove="Resources\SaveAs.png" />
   </ItemGroup>
 
+
+
   <ItemGroup>
     <PackageReference Include="MahApps.Metro.Resources" Version="0.6.1" />
   </ItemGroup>
+
+
 
   <ItemGroup>
     <Resource Include="Resources\OpenFile.png" />

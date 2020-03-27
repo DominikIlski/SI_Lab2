@@ -31,6 +31,49 @@ namespace SudokuSolver
             FileReader = new FileReader();
             SudokuBook = FileReader.FirstLoad();
             var tester = SudokuBook;
+
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j <9; j++)
+                {
+
+
+                    Border sudokuField = new Border
+                    {
+                        BorderBrush = Brushes.Black,
+                        BorderThickness = GetThickness(i, j, 0.1, 0.3)
+                    };
+
+                    TextBlock tx = new TextBlock
+                    {
+                        Text = "9"
+                    };
+
+                    Viewbox vb = new Viewbox();
+
+                    vb.Child = tx;
+
+                   
+                    sudokuField.Child = vb;
+
+
+                    Grid.SetColumn(sudokuField, j);
+                    Grid.SetRow(sudokuField, i);
+
+                    SudokuGrid.Children.Add(sudokuField);
+                    
+
+                    /*SudokuGrid.Children.Add(sudokuField);
+                    SudokuGrid.Children.Add(sudokuField);
+                    SudokuGrid.Children.Add(sudokuField);*/
+
+
+
+                }
+            }
+
+
         }
 
         private void OpenFileButton_Click(object sender, RoutedEventArgs e)
@@ -45,14 +88,19 @@ namespace SudokuSolver
 
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
+        #region private methods
 
+        private Thickness GetThickness(int i, int j, double thin, double thick)
+        {
+            var top = i % 3 == 0 ? thick : thin;
+            var bottom = i % 3 == 2 ? thick : thin;
+            var left = j % 3 == 0 ? thick : thin;
+            var right = j % 3 == 2 ? thick : thin;
+            return new Thickness(left, top, right, bottom);
         }
 
-        private void DifficultySlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
+        #endregion
 
-        }
+
     }
 }

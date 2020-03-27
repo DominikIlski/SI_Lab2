@@ -14,8 +14,8 @@ namespace Algorytm_Ewolucyjny.Services
     {
         private readonly string FILEPATH_ERROR = "Problem With filePath";
 
-        private readonly string FILEPATH_DEFAULT_SUDOKU = "D:\\gitProjects\\SI_Lab2v2\\SudokuSolver\\Resources\\Sudoku.csv";
-
+        private readonly string FILEPATH_DEFAULT_SUDOKU = "D:\\gitProjects\\SI_Lab2\\SudokuSolver\\Resources\\Sudoku.csv";
+        
         private readonly int SUDOKU_SIZE = 9;
 
         public FileReader()
