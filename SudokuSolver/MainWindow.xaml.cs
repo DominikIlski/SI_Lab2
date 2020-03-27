@@ -30,48 +30,10 @@ namespace SudokuSolver
             InitializeComponent();
             FileReader = new FileReader();
             SudokuBook = FileReader.FirstLoad();
-            var tester = SudokuBook;
+            
 
-
-            for (int i = 0; i < 9; i++)
-            {
-                for (int j = 0; j <9; j++)
-                {
-
-
-                    Border sudokuField = new Border
-                    {
-                        BorderBrush = Brushes.Black,
-                        BorderThickness = GetThickness(i, j, 0.1, 0.3)
-                    };
-
-                    TextBlock tx = new TextBlock
-                    {
-                        Text = "9"
-                    };
-
-                    Viewbox vb = new Viewbox();
-
-                    vb.Child = tx;
-
-                   
-                    sudokuField.Child = vb;
-
-
-                    Grid.SetColumn(sudokuField, j);
-                    Grid.SetRow(sudokuField, i);
-
-                    SudokuGrid.Children.Add(sudokuField);
-                    
-
-                    /*SudokuGrid.Children.Add(sudokuField);
-                    SudokuGrid.Children.Add(sudokuField);
-                    SudokuGrid.Children.Add(sudokuField);*/
-
-
-
-                }
-            }
+            DisplaySudokuGrid(SudokuBook[0].Sudoku);
+            
 
 
         }
@@ -98,6 +60,49 @@ namespace SudokuSolver
             var right = j % 3 == 2 ? thick : thin;
             return new Thickness(left, top, right, bottom);
         }
+
+
+
+        private void DisplaySudokuGrid(Sudoku sudoku)
+        {
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+
+
+                    Border sudokuField = new Border
+                    {
+                        BorderBrush = Brushes.Black,
+                        BorderThickness = GetThickness(i, j, 0.1, 0.3)
+                    };
+
+                    TextBlock tx = new TextBlock
+                    {
+                        Text = sudoku[j,i] == 0 ? " " : sudoku[j, i].ToString()
+                    };
+
+                    Viewbox vb = new Viewbox();
+
+                    vb.Child = tx;
+
+
+                    sudokuField.Child = vb;
+
+
+                    Grid.SetColumn(sudokuField, j);
+                    Grid.SetRow(sudokuField, i);
+
+                    SudokuGrid.Children.Add(sudokuField);
+
+
+                }
+            }
+
+
+        }
+
 
         #endregion
 
