@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace SudokuSolver.Models.VariableHeuristics
 {
-    abstract class VariableHeuristics
+    internal abstract class VariableHeuristics
     {
-
-
         public abstract HashSet<int> Assume();
-
-
     }
 }

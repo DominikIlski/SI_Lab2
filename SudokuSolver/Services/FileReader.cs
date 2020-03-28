@@ -1,12 +1,8 @@
-﻿
+﻿using Microsoft.Win32;
+using SudokuSolver.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-
-using Microsoft.Win32;
-using SudokuSolver.Models;
 
 namespace Algorytm_Ewolucyjny.Services
 {
@@ -15,17 +11,12 @@ namespace Algorytm_Ewolucyjny.Services
         private readonly string FILEPATH_ERROR = "Problem With filePath";
 
         private readonly string FILEPATH_DEFAULT_SUDOKU = "D:\\gitProjects\\SI_Lab2\\SudokuSolver\\Resources\\Sudoku.csv";
-        
+
         private readonly int SUDOKU_SIZE = 9;
 
         public FileReader()
         {
-            
-
-
         }
-
-       
 
         public string[] LoadRawSudoku(string filePath)
         {
@@ -34,73 +25,49 @@ namespace Algorytm_Ewolucyjny.Services
             if (filePath != FILEPATH_ERROR)
             {
                 fileData = File.ReadAllLines(filePath);
-
-
             }
             else
             {
-
                 throw new Exception("problem getting filePath");
-
             }
 
             return fileData;
-
         }
 
         public SudokuBook LoadData()
         {
-            
-
             string filePath = ChooseFileToOpen();
             var rawData = LoadRawSudoku(filePath);
 
             return CreateSudokuBook(rawData);
-
         }
 
         public SudokuBook FirstLoad()
         {
-
-           
             var rawData = LoadRawSudoku(FILEPATH_DEFAULT_SUDOKU);
 
             return CreateSudokuBook(rawData);
-
         }
-
 
         private SudokuBook CreateSudokuBook(string[] rawData)
         {
             var sudokuBook = new SudokuBook();
 
-            
+            for (int i = 1; i < rawData.Length; i++)
+            {
+                var line = rawData[i].Split(';');
 
-                for (int i = 1; i < rawData.Length; i++)
-                {
+                var id = int.Parse(line[0]);
 
-                    var line = rawData[i].Split(';');
+                var difficulty = double.Parse(line[1].Replace('.', ','));
 
-                    var id = int.Parse(line[0]);
+                var grid = GridParser(line[2]);
 
-                    var difficulty = double.Parse(line[1].Replace('.', ','));
-
-                    var grid = GridParser(line[2]);
-
-
-
-                    sudokuBook.Add((Id: id, Difficulty: difficulty, Sudoku: new Sudoku(grid)));
-
-                }
-
-            
-            
-
+                sudokuBook.Add((Id: id, Difficulty: difficulty, Sudoku: new Sudoku(grid)));
+            }
 
             return sudokuBook;
-
         }
-
 
         private int[,] GridParser(string gridRaw)
         {
@@ -112,19 +79,13 @@ namespace Algorytm_Ewolucyjny.Services
 
             for (int i = 0; i < SUDOKU_SIZE; i++)
             {
-
                 for (int j = 0; j < SUDOKU_SIZE; j++)
                 {
-                    
                     grid[j, i] = (int)char.GetNumericValue(gridChar[index].Equals('.') ? '0' : gridChar[index]);
                     index++;
                 }
-
             }
-
             return grid;
-
-
         }
 
         public void SaveFile(List<(double BestScore, double AvarageScore, double WorstScore)> Scores)
@@ -149,18 +110,9 @@ namespace Algorytm_Ewolucyjny.Services
                 // File type selected in the dialog box.
                 // NOTE that the FilterIndex property is one-based.
 
-
-
-               
-
                 //File.WriteAllText(saveFileDialog.FileName, ddd);
-
-
-
-
             }
         }
-
 
         #region privateMethods
 
@@ -185,11 +137,8 @@ namespace Algorytm_Ewolucyjny.Services
             }
 
             return filePath;
-
         }
 
-
-
-        #endregion
+        #endregion privateMethods
     }
 }

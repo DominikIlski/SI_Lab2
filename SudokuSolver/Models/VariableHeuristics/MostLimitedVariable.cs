@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace SudokuSolver.Models.VariableHeuristics
 {
-    class MostLimitedVariable : VariableHeuristics
+    internal class MostLimitedVariable : VariableHeuristics
     {
         public override HashSet<int> Assume()
         {
