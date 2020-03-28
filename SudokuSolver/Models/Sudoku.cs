@@ -5,7 +5,7 @@ namespace SudokuSolver.Models
 {
     public class Sudoku : ICacheMultiple<int>
     {
-        private int[,] Grid { set; get; }
+        public int[,] Grid {private set; get; }
         private TimeSpan? SolveingTime { set; get; }
         private int? SolutionNumber { set; get; }
         private int? NodeVisited { set; get; }

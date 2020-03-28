@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
-namespace SudokuSolver.Models.Interfaces.ValueHeuristics
+namespace SudokuSolver.Models.ValueHeuristics
 {
-    internal class LeastRestrictiveValue : ValueHeuristics
+    class RandomValue : ValueHeuristics
     {
         public override HashSet<int> Assume()
         {

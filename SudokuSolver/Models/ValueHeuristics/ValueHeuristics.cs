@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SudokuSolver.Models.Interfaces.ValueHeuristics
+namespace SudokuSolver.Models.ValueHeuristics
 {
     public abstract class ValueHeuristics
     {

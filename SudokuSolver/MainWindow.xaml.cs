@@ -1,4 +1,5 @@
 ﻿using Algorytm_Ewolucyjny.Services;
+using SudokuSolver.Global;
 using SudokuSolver.Models;
 using System.Windows;
 using System.Windows.Controls;
@@ -44,9 +45,9 @@ namespace SudokuSolver
 
         private void DisplaySudokuGrid(Sudoku sudoku)
         {
-            for (int i = 0; i < 9; i++)
+            for (int i = 0; i < Globals.SUDOKU_SIZE; i++)
             {
-                for (int j = 0; j < 9; j++)
+                for (int j = 0; j < Globals.SUDOKU_SIZE; j++)
                 {
                     Border sudokuField = new Border
                     {

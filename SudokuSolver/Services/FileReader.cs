@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using SudokuSolver.Global;
 using SudokuSolver.Models;
 using System;
 using System.Collections.Generic;
@@ -8,21 +9,11 @@ namespace Algorytm_Ewolucyjny.Services
 {
     public class FileReader
     {
-        private readonly string FILEPATH_ERROR = "Problem With filePath";
-
-        private readonly string FILEPATH_DEFAULT_SUDOKU = "D:\\gitProjects\\SI_Lab2\\SudokuSolver\\Resources\\Sudoku.csv";
-
-        private readonly int SUDOKU_SIZE = 9;
-
-        public FileReader()
-        {
-        }
-
         public string[] LoadRawSudoku(string filePath)
         {
             string[] fileData;
 
-            if (filePath != FILEPATH_ERROR)
+            if (filePath != Globals.FILEPATH_ERROR)
             {
                 fileData = File.ReadAllLines(filePath);
             }
@@ -44,7 +35,7 @@ namespace Algorytm_Ewolucyjny.Services
 
         public SudokuBook FirstLoad()
         {
-            var rawData = LoadRawSudoku(FILEPATH_DEFAULT_SUDOKU);
+            var rawData = LoadRawSudoku(Globals.FILEPATH_DEFAULT_SUDOKU);
 
             return CreateSudokuBook(rawData);
         }
@@ -71,15 +62,15 @@ namespace Algorytm_Ewolucyjny.Services
 
         private int[,] GridParser(string gridRaw)
         {
-            var grid = new int[SUDOKU_SIZE, SUDOKU_SIZE];
+            var grid = new int[Globals.SUDOKU_SIZE, Globals.SUDOKU_SIZE];
 
             var gridChar = gridRaw.ToCharArray();
 
             var index = 0;
 
-            for (int i = 0; i < SUDOKU_SIZE; i++)
+            for (int i = 0; i < Globals.SUDOKU_SIZE; i++)
             {
-                for (int j = 0; j < SUDOKU_SIZE; j++)
+                for (int j = 0; j < Globals.SUDOKU_SIZE; j++)
                 {
                     grid[j, i] = (int)char.GetNumericValue(gridChar[index].Equals('.') ? '0' : gridChar[index]);
                     index++;
@@ -90,27 +81,21 @@ namespace Algorytm_Ewolucyjny.Services
 
         public void SaveFile(List<(double BestScore, double AvarageScore, double WorstScore)> Scores)
         {
-            // Displays a SaveFileDialog so the user can save the Image
-            // assigned to Button2.
+            
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Title = "Zapisz wyniki algorytmu";
             saveFileDialog.FileName = "wyniki_algorytmu";
             saveFileDialog.DefaultExt = "csv";
             saveFileDialog.AddExtension = true;
             saveFileDialog.ShowDialog();
-            // If the file name is not an empty string open it for saving.
+           
             if (saveFileDialog.FileName != "")
             {
-                // Saves the Image via a FileStream created by the OpenFile method.
+               
                 using Stream fs = saveFileDialog.OpenFile();
 
                 using StreamWriter streamWriter = new StreamWriter(fs);
 
-                // Saves the Image in the appropriate ImageFormat based upon the
-                // File type selected in the dialog box.
-                // NOTE that the FilterIndex property is one-based.
-
-                //File.WriteAllText(saveFileDialog.FileName, ddd);
             }
         }
 
@@ -133,7 +118,7 @@ namespace Algorytm_Ewolucyjny.Services
             }
             else
             {
-                filePath = FILEPATH_ERROR;
+                filePath = Globals.FILEPATH_ERROR;
             }
 
             return filePath;
