@@ -5,12 +5,16 @@ namespace SudokuSolver.Models
 {
     public class SudokuBook : ICacheSingle<(int Id, double Difficulty, Sudoku Sudoku)>
     {
-        private List<(int Id, double Difficulty, Sudoku Sudoku)> SudokuList { set; get; }
-
+        public List<(int Id, double Difficulty, Sudoku Sudoku)> SudokuList {set; get; }
+        public int Count {set; get;}
         public SudokuBook()
         {
             SudokuList = new List<(int Id, double Difficulty, Sudoku Sudoku)>();
+            Count = 0;  
         }
+
+
+
 
         public (int Id, double Difficulty, Sudoku Sudoku) this[int key]
         {
@@ -22,6 +26,10 @@ namespace SudokuSolver.Models
             }
         }
 
-        public void Add((int Id, double Difficulty, Sudoku Sudoku) sudoku) => SudokuList.Add(sudoku);
+        public void Add((int Id, double Difficulty, Sudoku Sudoku) sudoku)
+        {
+            SudokuList.Add(sudoku);
+            Count++;
+        }
     }
 }

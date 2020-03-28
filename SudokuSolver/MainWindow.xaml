@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SudokuSolver"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="800">
+        Title="MainWindow" Height="982" Width="1140">
     <StackPanel>
 
-        <ToolBar Height="30" VerticalAlignment="Top">
-            <Viewbox>
-                <Button Margin=" 5 0 5 0" Click="OpenFileButton_Click" x:Name="OpenFileButton" ToolTip="Open File" BorderBrush="{x:Null}" Background="{x:Null}">
+        <Menu Height="30" VerticalAlignment="Top">
+            
+                <Button Margin=" 0 0 0 0" Click="OpenFileButton_Click" x:Name="OpenFileButton" ToolTip="Open File" BorderBrush="{x:Null}" Background="{x:Null}">
 
                     <Grid>
 
@@ -25,11 +25,11 @@
                         <TextBlock Grid.Column="1" Margin="5" Text="Otwórz plik" VerticalAlignment="Center" />
                     </Grid>
                 </Button>
-            </Viewbox>
+            
 
-            <Separator />
-            <Viewbox>
-                <Button Margin=" 5 0 5 0"  x:Name="SaveFileButton" ToolTip="Save File" BorderBrush="{x:Null}" Background="{x:Null}" Click="SaveFileButton_Click">
+            
+            
+                <Button Margin=" 0 0 0 0"  x:Name="SaveFileButton" ToolTip="Save File" BorderBrush="{x:Null}" Background="{x:Null}" Click="SaveFileButton_Click">
 
                     <Grid>
 
@@ -44,9 +44,9 @@
                         <TextBlock Grid.Column="1" Margin="5" Text="Zapisz plik"  VerticalAlignment="Center" />
                     </Grid>
                 </Button>
-            </Viewbox>
-            <Separator />
-        </ToolBar>
+            
+            
+        </Menu>
 
         <Viewbox Grid.Column="0" Grid.Row="0" MinHeight="500" MaxHeight="800">
 
@@ -77,5 +77,7 @@
                 </Grid>
             </Border>
         </Viewbox>
+        <Button x:Name="Solve" Click="Solve_Click" Margin="0 20" Height="70" Width="120" FontSize="40"  >Solve</Button>
+
     </StackPanel>
 </Window>

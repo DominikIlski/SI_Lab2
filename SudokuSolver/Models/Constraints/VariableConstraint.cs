@@ -7,13 +7,13 @@ using SudokuSolver.Global;
 
 namespace SudokuSolver.Models.VariableHeuristics
 {
-    class VariableConstraint : IComparable<VariableConstraint>
+    public class VariableConstraint : IComparable<VariableConstraint>
     {
         
-        int X { set; get; }
-        int Y { set; get; }
-        int Constraints { set; get; }
-        HashSet<int> Domain { set; get; }
+        public int X { set; get; }
+        public int Y { set; get; }
+        public int ConstraintsLevel { set; get; }
+        public HashSet<int> Domain { set; get; }
 
         public VariableConstraint(int x, int y, int[] row, int[] column)
         {
@@ -21,14 +21,14 @@ namespace SudokuSolver.Models.VariableHeuristics
             X = x;
             Y = y;
 
-            var rowDomain = Globals.ALL_POSSIBLE_VALUES.Except(row);
+            var rowDomain = Globals.ALL_POSSIBLE_VALUES.Except(row).ToArray();
 
             var columnDomain = Globals.ALL_POSSIBLE_VALUES.Except(column);
 
             Domain.UnionWith(rowDomain);
             Domain.UnionWith(columnDomain);
 
-            Constraints = Domain.Count;
+            ConstraintsLevel = Domain.Count;
 
         }
 
@@ -36,7 +36,7 @@ namespace SudokuSolver.Models.VariableHeuristics
         {
             if (other is null) return 1;
 
-            if (other != null) return Constraints.CompareTo(other.Constraints);
+            if (other != null) return ConstraintsLevel.CompareTo(other.ConstraintsLevel);
             else throw new Exception("Problem with CompareTo");
                 
         }

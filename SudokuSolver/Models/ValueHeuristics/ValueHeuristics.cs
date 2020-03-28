@@ -4,6 +4,6 @@ namespace SudokuSolver.Models.ValueHeuristics
 {
     public abstract class ValueHeuristics
     {
-        public abstract HashSet<int> Assume();
+        public abstract HashSet<T> Assume<T>(HashSet<T> possibleValues);
     }
 }

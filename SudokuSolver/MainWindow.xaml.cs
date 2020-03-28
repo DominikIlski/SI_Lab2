@@ -1,6 +1,9 @@
 ﻿using Algorytm_Ewolucyjny.Services;
 using SudokuSolver.Global;
 using SudokuSolver.Models;
+using SudokuSolver.Models.ValueHeuristics;
+using SudokuSolver.Models.VariableHeuristics;
+using SudokuSolver.Services;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -14,13 +17,13 @@ namespace SudokuSolver
     {
         private SudokuBook SudokuBook { get; set; }
         private FileReader FileReader { get; set; }
+        private SudokuSolverAlgorithm SudokuSolver { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
             FileReader = new FileReader();
             SudokuBook = FileReader.FirstLoad();
-
             DisplaySudokuGrid(SudokuBook[0].Sudoku);
         }
 
@@ -76,5 +79,18 @@ namespace SudokuSolver
         }
 
         #endregion private methods
+
+        private void Solve_Click(object sender, RoutedEventArgs e)
+        {
+            SudokuSolver = new SudokuSolverAlgorithm(SudokuBook, new MostLimitedVariable(), new RandomValue());
+            var solved = SudokuSolver.Run();
+            DisplaySudokuGrid(solved);
+        }
+
+
+        private void test()
+        {
+            
+        }
     }
 }

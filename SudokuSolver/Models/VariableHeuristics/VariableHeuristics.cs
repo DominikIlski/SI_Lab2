@@ -2,8 +2,8 @@
 
 namespace SudokuSolver.Models.VariableHeuristics
 {
-    internal abstract class VariableHeuristics
+    public abstract class VariableHeuristics
     {
-        public abstract HashSet<int> Assume(Sudoku sudoku);
+        public abstract List<VariableConstraint> Assume(Sudoku sudoku);
     }
 }

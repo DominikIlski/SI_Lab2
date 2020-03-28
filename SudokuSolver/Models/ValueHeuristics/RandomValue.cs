@@ -4,9 +4,9 @@ using System.Text;
 
 namespace SudokuSolver.Models.ValueHeuristics
 {
-    class RandomValue : ValueHeuristics
+    public class RandomValue : ValueHeuristics
     {
-        public override HashSet<int> Assume()
+        public override HashSet<T> Assume<T>(HashSet<T> possibleValues)
         {
             throw new NotImplementedException();
         }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace SudokuSolver.Models.ValueHeuristics
 {
-    internal class LeastRestrictiveValue : ValueHeuristics
+    public class LeastRestrictiveValue : ValueHeuristics
     {
-        public override HashSet<int> Assume()
+        public override HashSet<T> Assume<T>(HashSet<T> possibleValues)
         {
             throw new NotImplementedException();
         }
