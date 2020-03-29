@@ -5,6 +5,7 @@ using SudokuSolver.Models.VariableHeuristics;
 using SudokuSolver.Models.ValueHeuristics;
 using System.Windows;
 using SudokuSolver.Global;
+using System.Diagnostics;
 
 namespace SudokuSolver.Services
 {
@@ -13,7 +14,7 @@ namespace SudokuSolver.Services
         public SudokuBook? SudokuBook { set; private get; }
         public VariableHeuristics VariableHeuristics { set; get; }
         public ValueHeuristics ValueHeuristics { set; get; }
-        //public List<Sudoku> AllSolutions { set; get; }
+        public List<Sudoku> AllSolutions { set; get; }
         public SudokuBook? SolvedBook
         {
             set
@@ -40,7 +41,7 @@ namespace SudokuSolver.Services
             ValueHeuristics = valueHeuristics;
         }
 
-        public Sudoku Run()
+        public Sudoku Run(int sudokuId)
         {
             if (SudokuBook is null)
             {
@@ -49,14 +50,12 @@ namespace SudokuSolver.Services
                 throw new Exception("No sudoku book set");
             }
 
-            for (int i = 0; i < SudokuBook.Count; i++)
-            {
-                CurrentExample = SudokuBook[i].Sudoku;
+            
+                CurrentExample = SudokuBook[sudokuId].Sudoku;
                 AssumeSolvingOrder();
                 Solve();
-                //TODO: usunąć przy całości to tylko dla testów
-                break;
-            }
+                
+            
 
 
 
@@ -71,25 +70,13 @@ namespace SudokuSolver.Services
 
         private void Solve()
         {
-            for (int i = 0; i < Globals.SUDOKU_SIZE * Globals.SUDOKU_SIZE; i++)
-            {
-                var x = SolvingOrder[i].X;
-                var y = SolvingOrder[i].Y;
-                //var Domain = SolvingOrder[i].Domain;
 
-                if (CurrentExample[x,y] == 0)
-                        for (int n = 0; n < 10; n++)
-                        {
-                            if (possible(x, y, n))
-                            {
-                                CurrentExample[x, y] = n;
-                                Solve();
-                                CurrentExample[x, y] = 0;
-                            }
-                        }
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
 
-                
-            }
+            Node root = new Node(CurrentExample);
+
+
         }
 
 
