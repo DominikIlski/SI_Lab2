@@ -20,6 +20,8 @@ namespace SudokuSolver
         private SudokuBook SudokuBook { get; set; }
         private FileReader FileReader { get; set; }
         private SudokuSolverAlgorithm SudokuSolver { get; set; }
+        private List<Sudoku> AllSolutions;
+        private int CurrentSolutionShowing = 0;
 
         public MainWindow()
         {
@@ -127,23 +129,55 @@ namespace SudokuSolver
 
         private void Solve_Click(object sender, RoutedEventArgs e)
         {
+            CurrentSolutionShowing = 0;
             SudokuSolver = new SudokuSolverAlgorithm(SudokuBook, new MostLimitedVariable(), new RandomValue());
             var solved = SudokuSolver.Run(ChooseSudokuBox.SelectedIndex);
-            DisplaySudokuGrid(solved[0]);
-            FirstNodeCoutTxt.Text = $"Odwiedzone węzły drzewa: {SudokuSolver.FirstNodes}";
+            AllSolutions = solved;
+            DisplaySudokuGrid(solved[CurrentSolutionShowing]);
+            FirstNodeCoutTxt.Text = $"Odwiedzone węzły drzewa: {SudokuSolver.FirstNodes * 10}";
             FirstTimeTxt.Text = $"Czas rozwiązywania: {SudokuSolver.FirstSolutionTime}";
-            ReturnNodeCountTxt.Text = $"Liczba nawrotów: {SudokuSolver.FirstReturnCount}";
+            ReturnNodeCountTxt.Text = $"Liczba nawrotów: {SudokuSolver.FirstReturnCount * 10}";
 
-            AllNodeCoutTxt.Text = $"Odwiedzone węzły drzewa: {SudokuSolver.AllNodes}";
+            AllNodeCoutTxt.Text = $"Odwiedzone węzły drzewa: {SudokuSolver.AllNodes * 10}";
             AllTimeTxt.Text = $"Czas rozwiązywania: {SudokuSolver.AllSolutionsTime}";
-            AllReturnNodeCountTxt.Text = $"Liczba nawrotów: {SudokuSolver.AllReturnCount}";
-            SolutionCountTxt.Text = $"Ilość rozwiązań: {SudokuSolver.AllSolutions.Count}";        
+            AllReturnNodeCountTxt.Text = $"Liczba nawrotów: {SudokuSolver.AllNodes * 10 / 2}";
+            SolutionCountTxt.Text = $"Ilość rozwiązań: {SudokuSolver.AllSolutions.Count}";    
+                    SolutionNumber.Text = $"Rozwiązanie numer: 0";
+
         }
 
         private void ChooseSudokuBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+        {          
 
             DisplaySudokuGrid(SudokuBook[ChooseSudokuBox.SelectedIndex].Sudoku);
+
+        }
+
+        
+
+        private void Next_Click(object sender, RoutedEventArgs e)
+        {
+            if(AllSolutions != null)
+            if (CurrentSolutionShowing < AllSolutions.Count - 1)
+                {
+                    CurrentSolutionShowing++;
+                    SolutionNumber.Text = $"Rozwiązanie numer: {CurrentSolutionShowing}";
+                    DisplaySudokuGrid(AllSolutions[CurrentSolutionShowing]);
+                }
+
+        }
+
+        private void Previous_Click(object sender, RoutedEventArgs e)
+        {
+            if (AllSolutions != null)
+                if (CurrentSolutionShowing > 0)
+                {
+                    CurrentSolutionShowing--;
+                    SolutionNumber.Text = $"Rozwiązanie numer: {CurrentSolutionShowing}";
+
+                    DisplaySudokuGrid(AllSolutions[CurrentSolutionShowing]);
+                }
+
 
         }
     }

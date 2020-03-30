@@ -116,8 +116,10 @@
 
 
 
+            <StackPanel Grid.Column="1">
+                
 
-            <Viewbox Margin="-20 0 0 0" Grid.Column="1" MinHeight="500" MaxHeight="800">
+            <Viewbox Margin="-20 0 0 0"  MinHeight="500" MaxHeight="800">
                 <Border BorderBrush="Black" BorderThickness="1">
                     <Grid x:Name="SudokuGrid" Width="100" Height="100" Background="AntiqueWhite">
                         <Grid.ColumnDefinitions>
@@ -146,6 +148,23 @@
                 </Border>
             </Viewbox>
 
+                <Grid Margin="-20 0 0 0">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+
+                    </Grid.ColumnDefinitions>
+
+                    <Button x:Name="Next" Margin="5 5 5 5" Grid.Column="1" Style="{StaticResource RoundButtonTemplate}" Height="40" FontSize="25" Background="#06bd3d" Click="Next_Click" >Next</Button>
+                    <Button x:Name="Previous" Margin="5 5 5 5" Grid.Column="0" Style="{StaticResource RoundButtonTemplate}" Height="40" FontSize="25" Background="#06bd3d" Click="Previous_Click" >Previous</Button>
+
+
+                </Grid>
+
+                <TextBlock Margin=" 0 0 0 20" x:Name="SolutionNumber"  FontSize="30" FontWeight="Bold" Foreground="#ffffff">Rozwiązanie numer: </TextBlock>
+
+            </StackPanel>
             <Viewbox Margin="10" Grid.Column="2" VerticalAlignment ="Top" >
             <StackPanel>
 

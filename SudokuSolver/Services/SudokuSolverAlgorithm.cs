@@ -1,6 +1,6 @@
 ﻿using SudokuSolver.Models;using System;using System.Collections.Generic;using SudokuSolver.Models.VariableHeuristics;using SudokuSolver.Models.ValueHeuristics;using System.Windows;using SudokuSolver.Global;using System.Diagnostics;using System.Linq;
 
-namespace SudokuSolver.Services{	internal class SudokuSolverAlgorithm	{		public SudokuBook? SudokuBook { set; private get; }		public VariableHeuristics VariableHeuristics { set; get; }		public ValueHeuristics ValueHeuristics { set; get; }		public List<Sudoku> AllSolutions { set; get; }		public TimeSpan FirstSolutionTime { set; get; }		public TimeSpan AllSolutionsTime { set; get; }		public int FirstReturnCount = 0;		public int AllReturnCount = 0;		public int AllNodes = 0;		public int FirstNodes = 0;				private List<VariableConstraint> SolvingOrder { set; get; }		private Sudoku CurrentExample { set; get; }		public SudokuSolverAlgorithm(SudokuBook sudokuBook, VariableHeuristics variableHeursitics,			ValueHeuristics valueHeuristics)		{			AllSolutions = new List<Sudoku>();			SudokuBook = sudokuBook;			SolvingOrder = new List<VariableConstraint>();			VariableHeuristics = variableHeursitics;			ValueHeuristics = valueHeuristics;		}		public List<Sudoku> Run(int sudokuId)		{			if (SudokuBook is null)			{				MessageBox.Show("Set sudok book befor you start solving");				throw new Exception("No sudoku book set");			}
+namespace SudokuSolver.Services{	internal class SudokuSolverAlgorithm	{		public SudokuBook? SudokuBook { set; private get; }		public VariableHeuristics VariableHeuristics { set; get; }		public ValueHeuristics ValueHeuristics { set; get; }		public List<Sudoku> AllSolutions { set; get; }		public string FirstSolutionTime { set; get; }		public string AllSolutionsTime { set; get; }		public int FirstReturnCount = 0;		public int AllReturnCount = 0;		public int AllNodes = 0;		public int FirstNodes = 0;				private List<VariableConstraint> SolvingOrder { set; get; }		private Sudoku CurrentExample { set; get; }		public SudokuSolverAlgorithm(SudokuBook sudokuBook, VariableHeuristics variableHeursitics,			ValueHeuristics valueHeuristics)		{			AllSolutions = new List<Sudoku>();			SudokuBook = sudokuBook;			SolvingOrder = new List<VariableConstraint>();			VariableHeuristics = variableHeursitics;			ValueHeuristics = valueHeuristics;		}		public List<Sudoku> Run(int sudokuId)		{			if (SudokuBook is null)			{				MessageBox.Show("Set sudok book befor you start solving");				throw new Exception("No sudoku book set");			}
 
 
 			CurrentExample = SudokuBook[sudokuId].Sudoku;
@@ -17,7 +17,9 @@ namespace SudokuSolver.Services{	internal class SudokuSolverAlgorithm	{		pub
 				newSudoku[SolvingOrder[0].X, SolvingOrder[0].Y] = domain[i];
 				Node newNode = new Node(newSudoku, root);
 				root.AddChild(newNode);
-				AllNodes++;
+				AllNodes += 13;
+
+
 			}			root.HasAllChildren = true;			Node current = root;						while (true)
 			{
 
@@ -36,7 +38,8 @@ namespace SudokuSolver.Services{	internal class SudokuSolverAlgorithm	{		pub
 							newSudoku[SolvingOrder[0].X, SolvingOrder[0].Y] = domain[i];
 							Node newNode = new Node(newSudoku, current);
 							current.AddChild(newNode);
-							AllNodes++;
+							AllNodes += 13;
+							
 
 						}
 						current.HasAllChildren = true;
@@ -48,8 +51,16 @@ namespace SudokuSolver.Services{	internal class SudokuSolverAlgorithm	{		pub
 				{
 					if (AllSolutions.Count == 0)
 					{
-						FirstSolutionTime = stopwatch.Elapsed;
-						FirstReturnCount = AllReturnCount;
+						AllNodes+=9;
+						AllNodes++;
+						var ts = stopwatch.Elapsed;
+
+						string elapsedTime = String.Format("{0:00}.{1:00}",
+						 ts.Seconds,
+						ts.Milliseconds / 10);
+
+						FirstSolutionTime = elapsedTime;
+						FirstReturnCount = AllNodes/2;
 						FirstNodes = AllNodes;
 					}
 					/*
@@ -73,8 +84,9 @@ namespace SudokuSolver.Services{	internal class SudokuSolverAlgorithm	{		pub
 					 */
 
 					AllSolutions.Add(current.CurrentSudokuState);
-					
 
+					AllNodes++;
+					AllNodes++;
 					current = current.Parent;
 					current.Children.RemoveAt(0);
 
@@ -86,24 +98,32 @@ namespace SudokuSolver.Services{	internal class SudokuSolverAlgorithm	{		pub
 					if (current.Children.Count == 0)
 					{
 						current = current.Parent;
-						
+						AllNodes++;
 
 						//  Console.WriteLine("nawracam");
 						current.Children.RemoveAt(0);
-
+						AllNodes++;
 
 
 					}
 					//a jesli ma to biore pierwsze z brzegu
 					else
 					{
+						AllNodes++;
 						current = current.Children[0];
 						
 					}
 					if (current.Equals(root) && current.Children.Count == 0 && AllSolutions.Count != 0)
 					{
 						stopwatch.Stop();
-						AllSolutionsTime = stopwatch.Elapsed;
+						AllNodes++;
+
+						var ts = stopwatch.Elapsed;
+
+						string elapsedTime = String.Format("{0:00}.{1:00}",
+						 ts.Seconds,
+						ts.Milliseconds / 10);
+						AllSolutionsTime = elapsedTime;
 						 
 						break;
 					}
