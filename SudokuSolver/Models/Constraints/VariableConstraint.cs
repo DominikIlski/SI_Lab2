@@ -9,24 +9,35 @@ namespace SudokuSolver.Models.VariableHeuristics
 {
     public class VariableConstraint : IComparable<VariableConstraint>
     {
-        
+
         public int X { set; get; }
         public int Y { set; get; }
         public int ConstraintsLevel { set; get; }
         public HashSet<int> Domain { set; get; }
+        
 
-        public VariableConstraint(int x, int y, int[] row, int[] column)
+        public VariableConstraint(int x, int y, Sudoku currentExample)
         {
             Domain = new HashSet<int>(Globals.ALL_POSSIBLE_VALUES);
             X = x;
             Y = y;
 
+            var row = currentExample.Grid.SliceRow(y).ToArray();
+            var column = currentExample.Grid.SliceColumn(x).ToArray();
+
+            var subGrid = CheckSubGrid(y, x, currentExample);
+
             var rowDomain = Globals.ALL_POSSIBLE_VALUES.Except(row).ToArray();
 
             var columnDomain = Globals.ALL_POSSIBLE_VALUES.Except(column);
 
-            Domain.UnionWith(rowDomain);
-            Domain.UnionWith(columnDomain);
+            var subGridDomain = Globals.ALL_POSSIBLE_VALUES.Except(subGrid);
+
+            var subDomain = rowDomain.Intersect(columnDomain);
+
+            var domain = subDomain.Intersect(subGridDomain);
+             
+            Domain = new HashSet<int>(domain);
 
             ConstraintsLevel = Domain.Count;
 
@@ -40,5 +51,27 @@ namespace SudokuSolver.Models.VariableHeuristics
             else throw new Exception("Problem with CompareTo");
                 
         }
+
+
+
+        private HashSet<int> CheckSubGrid(int row, int column, Sudoku sudoku)
+        {
+            
+            var domain = new HashSet<int>();
+            
+            var boxRowStart = (int)Math.Floor((double)(row/3)) * 3;
+            var boxColStart = (int)Math.Floor((double)(column / 3)) * 3;
+
+
+
+            for (int i = 0; i < 3; i++)
+                for (int j = 0; j < 3; j++)
+                {
+                    domain.Add(sudoku[boxColStart + i, boxRowStart + j]);
+                }
+
+            return domain;
+        }
     }
 }
+

@@ -15,8 +15,7 @@ namespace SudokuSolver.Models.VariableHeuristics
                 for (int j = 0; j < Globals.SUDOKU_SIZE; j++)
                 {
                     if(sudoku[j,i] == 0)
-                    solvingOrder.Add(new VariableConstraint(j, i, grid.SliceRow(i).ToArray(), 
-                        grid.SliceColumn(j).ToArray()));
+                    solvingOrder.Add(new VariableConstraint(j, i, sudoku));
                 }
             }
 

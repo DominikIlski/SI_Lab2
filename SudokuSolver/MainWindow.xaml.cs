@@ -4,6 +4,8 @@ using SudokuSolver.Models;
 using SudokuSolver.Models.ValueHeuristics;
 using SudokuSolver.Models.VariableHeuristics;
 using SudokuSolver.Services;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -25,6 +27,47 @@ namespace SudokuSolver
             FileReader = new FileReader();
             SudokuBook = FileReader.FirstLoad();
             DisplaySudokuGrid(SudokuBook[0].Sudoku);
+            InitializeSudokuBox();
+            InitializeMethodBox();
+            InitializeVariableBox();
+            InitializeValueBox();
+        }
+
+        private void InitializeSudokuBox()
+        {
+            var idList = SudokuBook.SudokuList.Select( item => $"{item.Id}  Poziom trudności: {item.Difficulty}").ToList();
+            ChooseSudokuBox.ItemsSource = idList;
+            ChooseSudokuBox.SelectedIndex = 0;
+        }
+
+        private void InitializeMethodBox()
+        {
+            var methodsList = new List<string>
+            {
+                "Przeszukiwanie z nawrotami"
+            };
+            ChooseMethodBox.ItemsSource = methodsList;
+            ChooseMethodBox.SelectedIndex = 0;
+        }
+
+        private void InitializeVariableBox()
+        {
+            var methodsList = new List<string>
+            {
+                "Najbardziej ograniczona"
+            };
+            ChooseVariableBox.ItemsSource = methodsList;
+            ChooseVariableBox.SelectedIndex = 0;
+        }
+
+        private void InitializeValueBox()
+        {
+            var methodsList = new List<string>
+            {
+                "W kolejności definicji"
+            };
+            ChooseValueBox.ItemsSource = methodsList;
+            ChooseValueBox.SelectedIndex = 0;
         }
 
         private void OpenFileButton_Click(object sender, RoutedEventArgs e)
@@ -48,6 +91,8 @@ namespace SudokuSolver
 
         private void DisplaySudokuGrid(Sudoku sudoku)
         {
+            SudokuGrid.Children.Clear();
+
             for (int i = 0; i < Globals.SUDOKU_SIZE; i++)
             {
                 for (int j = 0; j < Globals.SUDOKU_SIZE; j++)
@@ -83,14 +128,23 @@ namespace SudokuSolver
         private void Solve_Click(object sender, RoutedEventArgs e)
         {
             SudokuSolver = new SudokuSolverAlgorithm(SudokuBook, new MostLimitedVariable(), new RandomValue());
-            var solved = SudokuSolver.Run();
-            DisplaySudokuGrid(solved);
+            var solved = SudokuSolver.Run(ChooseSudokuBox.SelectedIndex);
+            DisplaySudokuGrid(solved[0]);
+            FirstNodeCoutTxt.Text = $"Odwiedzone węzły drzewa: {SudokuSolver.FirstNodes}";
+            FirstTimeTxt.Text = $"Czas rozwiązywania: {SudokuSolver.FirstSolutionTime}";
+            ReturnNodeCountTxt.Text = $"Liczba nawrotów: {SudokuSolver.FirstReturnCount}";
+
+            AllNodeCoutTxt.Text = $"Odwiedzone węzły drzewa: {SudokuSolver.AllNodes}";
+            AllTimeTxt.Text = $"Czas rozwiązywania: {SudokuSolver.AllSolutionsTime}";
+            AllReturnNodeCountTxt.Text = $"Liczba nawrotów: {SudokuSolver.AllReturnCount}";
+            SolutionCountTxt.Text = $"Ilość rozwiązań: {SudokuSolver.AllSolutions.Count}";        
         }
 
-
-        private void test()
+        private void ChooseSudokuBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+
+            DisplaySudokuGrid(SudokuBook[ChooseSudokuBox.SelectedIndex].Sudoku);
+
         }
     }
 }

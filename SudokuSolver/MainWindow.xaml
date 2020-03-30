@@ -5,79 +5,188 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SudokuSolver"
         mc:Ignorable="d"
-        Title="MainWindow" Height="982" Width="1140">
-    <StackPanel>
+        Title="Rozwiązywanie Sudoku" Height="1278" Width="2085"
+        WindowState="Maximized" FontFamily="JetBrains mono">
+
+    <Window.Resources>
+
+        <Style x:Key="RoundButtonTemplate" TargetType="Button">
+            <Setter Property="Background" Value="Brown"/>
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="15" Background="{TemplateBinding Background}"
+                                BorderThickness="1">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                            </ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+    
+    <StackPanel Background="#212422">
 
         <Menu Height="30" VerticalAlignment="Top">
-            
-                <Button Margin=" 0 0 0 0" Click="OpenFileButton_Click" x:Name="OpenFileButton" ToolTip="Open File" BorderBrush="{x:Null}" Background="{x:Null}">
 
-                    <Grid>
+            <Button Margin=" 0 0 0 0" Click="OpenFileButton_Click" x:Name="OpenFileButton" ToolTip="Open File" BorderBrush="{x:Null}" Background="{x:Null}">
 
-                        <Grid.ColumnDefinitions>
+                <Grid>
 
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="5*" />
-                        </Grid.ColumnDefinitions>
+                    <Grid.ColumnDefinitions>
 
-                        <Image Grid.Column="0" Source=".//Resources/OpenFolder.png" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="5*" />
+                    </Grid.ColumnDefinitions>
 
-                        <TextBlock Grid.Column="1" Margin="5" Text="Otwórz plik" VerticalAlignment="Center" />
-                    </Grid>
-                </Button>
-            
+                    <Image Grid.Column="0" Source=".//Resources/OpenFolder.png" />
 
-            
-            
-                <Button Margin=" 0 0 0 0"  x:Name="SaveFileButton" ToolTip="Save File" BorderBrush="{x:Null}" Background="{x:Null}" Click="SaveFileButton_Click">
+                    <TextBlock Grid.Column="1" Margin="5" Text="Otwórz plik" VerticalAlignment="Center" />
+                </Grid>
+            </Button>
 
-                    <Grid>
 
-                        <Grid.ColumnDefinitions>
 
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="5*" />
-                        </Grid.ColumnDefinitions>
 
-                        <Image Grid.Column="0" Source=".//Resources/Save.png" />
+            <Button Margin=" 0 0 0 0"  x:Name="SaveFileButton" ToolTip="Save File" BorderBrush="{x:Null}" Background="{x:Null}" Click="SaveFileButton_Click">
 
-                        <TextBlock Grid.Column="1" Margin="5" Text="Zapisz plik"  VerticalAlignment="Center" />
-                    </Grid>
-                </Button>
-            
-            
+                <Grid>
+
+                    <Grid.ColumnDefinitions>
+
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="5*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Image Grid.Column="0" Source=".//Resources/Save.png" />
+
+                    <TextBlock Grid.Column="1" Margin="5" Text="Zapisz plik"  VerticalAlignment="Center" />
+                </Grid>
+            </Button>
+
+
         </Menu>
 
-        <Viewbox Grid.Column="0" Grid.Row="0" MinHeight="500" MaxHeight="800">
+      
 
-            <Border BorderBrush="Black" BorderThickness="1">
-                <Grid x:Name="SudokuGrid" Width="100" Height="100">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                </Grid>
-            </Border>
-        </Viewbox>
-        <Button x:Name="Solve" Click="Solve_Click" Margin="0 20" Height="70" Width="120" FontSize="40"  >Solve</Button>
+        <Grid >
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+
+            </Grid.ColumnDefinitions>
+            
+            <StackPanel Grid.Column="0" Margin=" 10 0 0 0 " HorizontalAlignment="Left">
+
+                <TextBlock Margin=" 0 0 0 5"   FontSize="40" FontWeight="Bold" Foreground="#06bd3d">Poziom trudności:</TextBlock>
+
+
+
+                <ComboBox Margin="0 0 0 30" FontSize="35" Name="ChooseSudokuBox" Height="50" Width="600" HorizontalAlignment="Left" SelectionChanged="ChooseSudokuBox_SelectionChanged" Background="AntiqueWhite"/>
+
+
+                <TextBlock Margin=" 0 0 0 5"   FontSize="40" FontWeight="Bold" Foreground="#06bd3d">Metoda poszukiwań:</TextBlock>
+
+                <ComboBox Margin="0 0 0 30" Background="AntiqueWhite" FontSize="35" Name="ChooseMethodBox" Height="50" Width="600" HorizontalAlignment="Left" />
+
+                <TextBlock Margin=" 0 0 0 5"   FontSize="40" FontWeight="Bold" Foreground="#06bd3d">Heurystyka zmiennych:</TextBlock>
+
+                <ComboBox Margin="0 0 0 30" FontSize="35" Name="ChooseVariableBox" Height="50" Width="600" HorizontalAlignment="Left" Background="AntiqueWhite"/>
+
+                <TextBlock Margin=" 0 0 0 5"   FontSize="40" FontWeight="Bold" Foreground="#06bd3d">Heurystyka wartości:</TextBlock>
+
+                <ComboBox  Margin="0 0 0 30" FontSize="35" Name="ChooseValueBox" Height="50" Width="600" HorizontalAlignment="Left" Background="AntiqueWhite"/>
+
+
+                
+
+                    <Button x:Name="Solve"  Click="Solve_Click" Margin="0 20" Height="70" Width="500" FontSize="40" Background="#06bd3d" Foreground="White" Style="{StaticResource RoundButtonTemplate}" >Rozwiąż</Button>
+
+                
+
+            </StackPanel>
+
+
+
+
+
+
+            <Viewbox Margin="-20 0 0 0" Grid.Column="1" MinHeight="500" MaxHeight="800">
+                <Border BorderBrush="Black" BorderThickness="1">
+                    <Grid x:Name="SudokuGrid" Width="100" Height="100" Background="AntiqueWhite">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                    </Grid>
+                </Border>
+            </Viewbox>
+
+            <Viewbox Margin="10" Grid.Column="2" VerticalAlignment ="Top" >
+            <StackPanel>
+
+                
+                <TextBlock Margin=" 0 10 0 30"   FontSize="40" FontWeight="Bold" Foreground="#06bd3d">Pierwsze rozwiązenie</TextBlock>
+               
+
+                
+                <TextBlock Margin=" 0 0 0 20" x:Name="FirstNodeCoutTxt"  FontSize="30" FontWeight="Bold" Foreground="#ffffff">Odwiedzone węzły drzewa: </TextBlock>
+               
+
+               
+                <TextBlock Margin=" 0 0 0 20" x:Name="FirstTimeTxt"  FontSize="30" FontWeight="Bold" Foreground="#ffffff">Czas rozwiązywania: </TextBlock>
+                
+               
+                <TextBlock Margin=" 0 0 0 25" x:Name="ReturnNodeCountTxt"  FontSize="30" FontWeight="Bold" Foreground="#ffffff">Liczba nawrotów: </TextBlock>
+                
+                    
+                <Separator Background="AntiqueWhite"/>
+
+                
+                <TextBlock Margin=" 0 25 0 30"   FontSize="40" FontWeight="Bold" Foreground="#06bd3d">Wszystkie rozwiazania</TextBlock>
+                
+                
+                <TextBlock Margin=" 0 0 0 20" x:Name="AllNodeCoutTxt"  FontSize="30" FontWeight="Bold" Foreground="#ffffff">Odwiedzone węzły drzewa: </TextBlock>
+                
+               
+                <TextBlock Margin=" 0 0 0 20" x:Name="AllTimeTxt"  FontSize="30" FontWeight="Bold" Foreground="#ffffff">Czas rozwiązywania: </TextBlock>
+                
+                
+                <TextBlock Margin=" 0 0 0 25" x:Name="AllReturnNodeCountTxt"  FontSize="30" FontWeight="Bold" Foreground="#ffffff">Liczba nawrotów: </TextBlock>
+               
+                <Separator Background="AntiqueWhite"/>
+
+                    <TextBlock Margin=" 0 0 0 20" x:Name="SolutionCountTxt"  FontSize="30" FontWeight="Bold" Foreground="#ffffff">Ilość rozwiązań: </TextBlock>
+
+
+                </StackPanel>
+            </Viewbox>
+        </Grid>
+
 
     </StackPanel>
 </Window>

@@ -8,22 +8,29 @@ namespace SudokuSolver.Models
     {
         public List<Node> Children { get; set; }
         public Node? Parent { get; set; }
-        public Sudoku CurrentState { get; set; }
-        public bool HasAllChildern { get; set; }
+        public Sudoku CurrentSudokuState { get; set; }
+        public bool HasAllChildren { get; set; }
         public int AllNodesCount = 0;
 
-        public Node(Sudoku sudoku)
+        public Node(Sudoku sudoku, Node parent = null)
         {
             Children = new List<Node>();
-            Parent = null;
-            CurrentState = sudoku;
-            HasAllChildern = false;
+            Parent = parent;
+            CurrentSudokuState = new Sudoku(sudoku);
+            HasAllChildren = false;
             AllNodesCount++;
         }
 
         public void AddChild(Node node) => Children.Add(node);
 
-        public void SetParrent(Node node) => Parent = node;
+        public Node(Node other)
+        {
+            Children = new List<Node>(other.Children);
+            Parent = other.Parent;
+            CurrentSudokuState = new Sudoku(other.CurrentSudokuState);
+            HasAllChildren = other.HasAllChildren;
+            AllNodesCount++;
+        }
         
     }
 }
